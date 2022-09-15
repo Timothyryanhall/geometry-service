@@ -12,7 +12,26 @@ public class RectangleService {
      * @return points of intersection
      */
     public Point[] intersections(Rectangle[] rectangles) {
+        Rectangle rec1 = rectangles[0];
+        Rectangle rec2 = rectangles[1];
+
+        if (spaceAbove(rec1,rec2)) {
+            System.out.println("The rectangles do not intersect, the bottom of one rectangle is above the top of the other rectangle");
+            return new Point[]{};
+        } else if (spaceBetween(rec1,rec2)) {
+            System.out.println("The rectangles do not intersect, the bottom of one rectangle is above the top of the other rectangle");
+            return new Point[]{};
+        }
+
         List<Point> intersections = new ArrayList<Point>();
+
+        // check if they have the same interseting point
+        // if they do, then check:
+        //  if one rectangle's top is higher than the other's bottom
+        //   in this case, the left side should also be to the left of the other's right side
+        //  if one rectangles leftSide is to the left of the other rectangles right side
+        //  both of the above cases should be intersection
+
 
         return intersections.toArray(new Point[intersections.size()]);
 
@@ -40,6 +59,16 @@ public class RectangleService {
      */
     public Boolean adjacency(Rectangle[] rectangles) {
         return false;
+    }
+
+    private Boolean spaceAbove(Rectangle rec1, Rectangle rec2) {
+        return rec1.corners.get("bottomLeft").y > rec2.corners.get("topLeft").y ||
+                rec2.corners.get("topLeft").y > rec1.corners.get("bottomLeft").y;
+    }
+
+    private Boolean spaceBetween(Rectangle rec1, Rectangle rec2) {
+        return rec1.corners.get("bottomLeft").x > rec2.corners.get("bottomRight").x ||
+                rec2.corners.get("bottomLeft").x > rec1.corners.get("bottomRight").x;
     }
 
 }

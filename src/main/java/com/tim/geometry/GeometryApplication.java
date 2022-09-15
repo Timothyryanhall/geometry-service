@@ -24,6 +24,7 @@ public class GeometryApplication implements CommandLineRunner {
 			stringArgs.addAll(Arrays.asList(args[i].split(",")));
 			System.out.println("Arg " + i + ": " + args[i]);
 		}
+		System.out.println();
 
 
 		Rectangle rec1 = new Rectangle(
