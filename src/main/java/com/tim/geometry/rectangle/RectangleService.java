@@ -1,51 +1,71 @@
 package com.tim.geometry.rectangle;
 
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 public class RectangleService {
 
     /**
      * Intersection: You must be able to determine whether two rectangles have one or more
      * intersecting lines and produce a result identifying the points of intersection.
-     * @param rectangles to check for intersecting points
      * @return points of intersection
      */
-    public Point[] intersections(Rectangle[] rectangles) {
-        Rectangle rec1 = rectangles[0];
-        Rectangle rec2 = rectangles[1];
-
-        if (spaceAbove(rec1,rec2)) {
-            System.out.println("The rectangles do not intersect, the bottom of one rectangle is above the top of the other rectangle");
-            return new Point[]{};
-        } else if (spaceBetween(rec1,rec2)) {
-            System.out.println("The rectangles do not intersect, the bottom of one rectangle is above the top of the other rectangle");
-            return new Point[]{};
+    public static List<Point> intersections(Rectangle rec1, Rectangle rec2) {
+        List<Point> commonPoints = findCommonPoints(rec1,rec2);
+        if (commonPoints.isEmpty()) {
+            System.out.println("The rectangles do not intersect, there are no common points");
+            return Collections.emptyList();
         }
 
-        List<Point> intersections = new ArrayList<Point>();
+        List<Point> commonSidePoints2 = findCommonSidePoints(rec1,rec2);
+        if (commonSidePoints2.size() == 2 && commonPoints.size() > 2) {
+            return commonSidePoints2;
+        }
 
-        // check if they have the same interseting point
-        // if they do, then check:
-        //  if one rectangle's top is higher than the other's bottom
-        //   in this case, the left side should also be to the left of the other's right side
-        //  if one rectangles leftSide is to the left of the other rectangles right side
-        //  both of the above cases should be intersection
+        System.out.println("There are more than two common side points, so the rectangle is adjacent, not intersecting");
+        return Collections.emptyList();
 
+    }
 
-        return intersections.toArray(new Point[intersections.size()]);
+    private static List<Point> findCommonSidePoints(Rectangle rec1, Rectangle rec2) {
+        List<Point> commonSides = new ArrayList<>();
+        List<Point> rec1Sides = new ArrayList<>();
+        List<Point> rec2Sides = new ArrayList<>();
 
+        for (Point[] pArr : rec1.sides.values()) {
+            rec1Sides.addAll(Arrays.asList(pArr));
+        }
+        for (Point[] pArr : rec2.sides.values()) {
+            rec2Sides.addAll(Arrays.asList(pArr));
+        }
 
+        for (Point rec1Side : rec1Sides) {
+            for (Point rec2Side : rec2Sides) {
+                if (rec1Side.equals(rec2Side)) {
+                    commonSides.add(rec1Side);
+                }
+            }
+        }
+
+        return commonSides;
     }
 
     /**
      * You must be able to determine whether a rectangle is wholly contained within
      * another rectangle.
-     * @param rectangles to check for containment
      * @return a boolean describing whether either of the rectangles is contained in the other
      */
-    public Boolean contained(Rectangle[] rectangles) {
-        return false;
+    public static Boolean contained(Rectangle rec1, Rectangle rec2) {
+        Point[] rec1units = Arrays.stream(rec1.units)
+                .flatMap(Arrays::stream)
+                .toArray(Point[]::new);
+
+        Point[] rec2units = Arrays.stream(rec2.units)
+                .flatMap(Arrays::stream)
+                .toArray(Point[]::new);
+
+        return Arrays.asList(rec1units).containsAll(Arrays.asList(rec2units)) ||
+                Arrays.asList(rec2units).containsAll(Arrays.asList(rec1units));
     }
 
     /**
@@ -54,21 +74,27 @@ public class RectangleService {
      * sub-line share is a share where one side of rectangle A is a line that exists as a set of points
      * wholly contained on some other side of rectangle B, where partial is one where some line
      * segment on a side of rectangle A exists as a set of points on some side of Rectangle B.
-     * @param rectangles to check for adjacency
      * @return a boolean describing whether any type of adjacency is present
      */
-    public Boolean adjacency(Rectangle[] rectangles) {
-        return false;
+    public static Boolean adjacency(Rectangle rec1, Rectangle rec2) {
+        List<Point> commonSidePoints = findCommonSidePoints(rec1,rec2);
+        return commonSidePoints.size() > 2;
     }
 
-    private Boolean spaceAbove(Rectangle rec1, Rectangle rec2) {
-        return rec1.corners.get("bottomLeft").y > rec2.corners.get("topLeft").y ||
-                rec2.corners.get("topLeft").y > rec1.corners.get("bottomLeft").y;
-    }
+    private static List<Point> findCommonPoints(Rectangle rec1, Rectangle rec2) {
+        List<Point> commonEntries = new ArrayList<>();
 
-    private Boolean spaceBetween(Rectangle rec1, Rectangle rec2) {
-        return rec1.corners.get("bottomLeft").x > rec2.corners.get("bottomRight").x ||
-                rec2.corners.get("bottomLeft").x > rec1.corners.get("bottomRight").x;
+        for (Integer key : rec1.unitsMap.keySet()) {
+            if (rec2.unitsMap.containsKey(key)) {
+                for (Integer value : rec1.unitsMap.get(key)) {
+                    if (rec2.unitsMap.get(key).contains(value)){
+                        commonEntries.add(new Point(key, value));
+                    }
+                }
+            }
+        }
+        System.out.println("Common points: " + Arrays.toString(commonEntries.toArray()));
+        return commonEntries;
     }
 
 }

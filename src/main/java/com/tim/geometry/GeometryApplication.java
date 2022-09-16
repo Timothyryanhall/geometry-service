@@ -1,6 +1,8 @@
 package com.tim.geometry;
 
+import com.tim.geometry.rectangle.Point;
 import com.tim.geometry.rectangle.Rectangle;
+import com.tim.geometry.rectangle.RectangleService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
@@ -18,13 +20,11 @@ public class GeometryApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		List<String> stringArgs = new ArrayList<String>();
+		List<String> stringArgs = new ArrayList<>();
 
-		for (int i = 0; i < args.length; i++) {
-			stringArgs.addAll(Arrays.asList(args[i].split(",")));
-			System.out.println("Arg " + i + ": " + args[i]);
+		for (String arg : args) {
+			stringArgs.addAll(Arrays.asList(arg.split(",")));
 		}
-		System.out.println();
 
 
 		Rectangle rec1 = new Rectangle(
@@ -43,6 +43,11 @@ public class GeometryApplication implements CommandLineRunner {
 
 		System.out.println(rec1);
 		System.out.println(rec2);
+
+		List<Point> commonSides = RectangleService.intersections(rec1,rec2);
+		System.out.println("intersections: " + Arrays.toString(commonSides.toArray()));
+		System.out.println("contained: " + RectangleService.contained(rec1,rec2));
+		System.out.println("adjacent: " + RectangleService.adjacency(rec1,rec2));
 		System.out.println("That's all folks!");
 
 	}

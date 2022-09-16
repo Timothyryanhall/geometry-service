@@ -1,12 +1,11 @@
 package com.tim.geometry.rectangle;
 
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Rectangle {
     Point[][] units;
+    Map<Integer, List<Integer>> unitsMap;
     Map<String, Point[]> sides;
     Map<String, Point> corners;
     int width;
@@ -23,6 +22,22 @@ public class Rectangle {
         this.sides = assembleSides();
         this.area = (this.height + 1) * (this.width + 1);
         this.units = assembleUnits();
+        this.unitsMap = assembleUnitsMap();
+    }
+
+    private Map<Integer, List<Integer>> assembleUnitsMap() {
+        Map<Integer, List<Integer>> unitsMap = new HashMap<>();
+
+        for (Point[] unitArr : this.units) {
+            for (Point p : unitArr) {
+                if (unitsMap.get(p.x) != null) {
+                    unitsMap.get(p.x).add(p.y);
+                } else {
+                    unitsMap.put(p.x, new ArrayList<>(List.of(p.y)));
+                }
+            }
+        }
+        return unitsMap;
     }
 
     private Point[][] assembleUnits() {
@@ -30,7 +45,6 @@ public class Rectangle {
 
         for (int i = 0; i < this.height + 1; i++) {
             for (int j = 0; j < this.width + 1; j++) {
-                System.out.println(this.corners.get("topLeft").x + j + "," + (this.corners.get("topLeft").y - i));
                 units[i][j] = new Point((this.corners.get("topLeft").x + j), (this.corners.get("topLeft").y - i));
             }
         }
@@ -66,7 +80,8 @@ public class Rectangle {
                 "leftSide: " + leftSide + "\n" +
                 "rightSide: " + rightSide + "\n" +
                 "area: " + this.area + "\n" +
-                "units: " + Arrays.deepToString(this.units) + "\n";
+                "units: " + Arrays.deepToString(this.units) + "\n" +
+                "unitsMap: " + Collections.singletonList(this.unitsMap) + "\n";
     }
 
 
