@@ -6,8 +6,7 @@ import java.util.*;
 public class RectangleService {
 
     /**
-     * Intersection: You must be able to determine whether two rectangles have one or more
-     * intersecting lines and produce a result identifying the points of intersection.
+     * Determines whether two rectangles have one or more intersecting lines.
      * @return points of intersection
      */
     public static List<Point> intersections(Rectangle rec1, Rectangle rec2) {
@@ -51,8 +50,7 @@ public class RectangleService {
     }
 
     /**
-     * You must be able to determine whether a rectangle is wholly contained within
-     * another rectangle.
+     * Determine whether a rectangle is wholly contained within another rectangle.
      * @return a boolean describing whether either of the rectangles is contained in the other
      */
     public static Boolean contained(Rectangle rec1, Rectangle rec2) {
@@ -69,16 +67,13 @@ public class RectangleService {
     }
 
     /**
-     * Implement the ability to detect whether two rectangles are adjacent. Adjacency is
-     * defined as the sharing of at least one side. Side sharing may be proper, sub-line or partial. A
-     * sub-line share is a share where one side of rectangle A is a line that exists as a set of points
-     * wholly contained on some other side of rectangle B, where partial is one where some line
-     * segment on a side of rectangle A exists as a set of points on some side of Rectangle B.
+     * Detects whether two rectangles are adjacent.
      * @return a boolean describing whether any type of adjacency is present
      */
     public static Boolean adjacency(Rectangle rec1, Rectangle rec2) {
         List<Point> commonSidePoints = findCommonSidePoints(rec1,rec2);
-        return commonSidePoints.size() > 2;
+        Boolean isContained = contained(rec1,rec2);
+        return !isContained && commonSidePoints.size() > 2;
     }
 
     private static List<Point> findCommonPoints(Rectangle rec1, Rectangle rec2) {

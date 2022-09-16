@@ -96,6 +96,7 @@ public class Rectangle {
             leftSide[i] = new Point(this.corners.get("bottomLeft").x, this.corners.get("bottomLeft").y + i);
             rightSide[i] = new Point(this.corners.get("bottomRight").x, this.corners.get("bottomRight").y + i);
         }
+
         for (int i = 0; i < this.width + 1; i++) {
             top[i] = new Point(this.corners.get("topLeft").x + i, this.corners.get("topLeft").y);
             bottom[i] = new Point(this.corners.get("bottomLeft").x + i, this.corners.get("bottomRight").y);
