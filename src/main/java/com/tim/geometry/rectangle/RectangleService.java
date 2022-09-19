@@ -16,12 +16,12 @@ public class RectangleService {
             return Collections.emptyList();
         }
 
-        List<Point> commonSidePoints2 = findCommonSidePoints(rec1,rec2);
-        if (commonSidePoints2.size() == 2 && commonPoints.size() > 2) {
-            return commonSidePoints2;
+        List<Point> commonSidePoints = findCommonSidePoints(rec1,rec2);
+        if (commonSidePoints.size() == 2 && commonPoints.size() > 2) {
+            return commonSidePoints;
         }
 
-        System.out.println("There are more than two common side points, so the rectangle is adjacent, not intersecting");
+        System.out.println("There are more than two common side points, so the rectangles are adjacent, not intersecting");
         return Collections.emptyList();
 
     }
@@ -31,10 +31,10 @@ public class RectangleService {
         List<Point> rec1Sides = new ArrayList<>();
         List<Point> rec2Sides = new ArrayList<>();
 
-        for (Point[] pArr : rec1.sides.values()) {
+        for (Point[] pArr : rec1.getSides().values()) {
             rec1Sides.addAll(Arrays.asList(pArr));
         }
-        for (Point[] pArr : rec2.sides.values()) {
+        for (Point[] pArr : rec2.getSides().values()) {
             rec2Sides.addAll(Arrays.asList(pArr));
         }
 
@@ -54,11 +54,11 @@ public class RectangleService {
      * @return a boolean describing whether either of the rectangles is contained in the other
      */
     public static Boolean contained(Rectangle rec1, Rectangle rec2) {
-        Point[] rec1units = Arrays.stream(rec1.units)
+        Point[] rec1units = Arrays.stream(rec1.getUnits())
                 .flatMap(Arrays::stream)
                 .toArray(Point[]::new);
 
-        Point[] rec2units = Arrays.stream(rec2.units)
+        Point[] rec2units = Arrays.stream(rec2.getUnits())
                 .flatMap(Arrays::stream)
                 .toArray(Point[]::new);
 
@@ -79,10 +79,10 @@ public class RectangleService {
     private static List<Point> findCommonPoints(Rectangle rec1, Rectangle rec2) {
         List<Point> commonEntries = new ArrayList<>();
 
-        for (Integer key : rec1.unitsMap.keySet()) {
-            if (rec2.unitsMap.containsKey(key)) {
-                for (Integer value : rec1.unitsMap.get(key)) {
-                    if (rec2.unitsMap.get(key).contains(value)){
+        for (Integer key : rec1.getUnitsMap().keySet()) {
+            if (rec2.getUnitsMap().containsKey(key)) {
+                for (Integer value : rec1.getUnitsMap().get(key)) {
+                    if (rec2.getUnitsMap().get(key).contains(value)){
                         commonEntries.add(new Point(key, value));
                     }
                 }

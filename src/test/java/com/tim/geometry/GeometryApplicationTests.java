@@ -54,4 +54,15 @@ class GeometryApplicationTests {
 		assertThat(RectangleService.intersections(rec1,rec2)).isEqualTo(intersections);
 		assertThat(RectangleService.contained(rec1,rec2)).isEqualTo(false);
 	}
+
+	@Test
+	void largeIntersectingRectangles() {
+		Rectangle rec1 = new Rectangle("1","5000","400","200");
+		Rectangle rec2 = new Rectangle("300","6000","500","300");
+		List<Point> intersections = List.of(new Point(300,5000), new Point(400,300));
+
+		assertThat(RectangleService.adjacency(rec1,rec2)).isEqualTo(false);
+		assertThat(RectangleService.intersections(rec1,rec2)).isEqualTo(intersections);
+		assertThat(RectangleService.contained(rec1,rec2)).isEqualTo(false);
+	}
 }

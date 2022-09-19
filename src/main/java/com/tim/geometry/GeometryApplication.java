@@ -41,15 +41,14 @@ public class GeometryApplication implements CommandLineRunner {
 					stringArgs.get(7)
 			);
 
-			System.out.println(rec1);
-			System.out.println(rec2);
+			System.out.println("\n" + "Rectangle 1:" + "\n" + rec1);
+			System.out.println("\n" + "Rectangle 2:" + "\n" + rec2);
 
+			System.out.println("\n" + "Analysis:");
 			List<Point> commonSides = RectangleService.intersections(rec1,rec2);
 			System.out.println("intersections: " + Arrays.toString(commonSides.toArray()));
 			System.out.println("contained: " + RectangleService.contained(rec1,rec2));
 			System.out.println("adjacent: " + RectangleService.adjacency(rec1,rec2));
-			System.out.println("That's all folks!");
-
 		}
 	}
 }

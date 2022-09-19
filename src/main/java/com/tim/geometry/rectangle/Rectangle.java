@@ -4,13 +4,12 @@ package com.tim.geometry.rectangle;
 import java.util.*;
 
 public class Rectangle {
-    Point[][] units;
-    Map<Integer, List<Integer>> unitsMap;
-    Map<String, Point[]> sides;
-    Map<String, Point> corners;
-    int width;
-    int height;
-    int area;
+    private Point[][] units;
+    private Map<String, Point[]> sides;
+    private Map<String, Point> corners;
+    private int width;
+    private int height;
+    private int area;
 
     public Rectangle() {
     }
@@ -48,10 +47,8 @@ public class Rectangle {
                 units[i][j] = new Point((this.corners.get("topLeft").x + j), (this.corners.get("topLeft").y - i));
             }
         }
-
         return units;
     }
-
 
     @Override
     public String toString() {
@@ -81,7 +78,7 @@ public class Rectangle {
                 "rightSide: " + rightSide + "\n" +
                 "area: " + this.area + "\n" +
                 "units: " + Arrays.deepToString(this.units) + "\n" +
-                "unitsMap: " + Collections.singletonList(this.unitsMap) + "\n";
+                "unitsMap: " + Collections.singletonList(this.unitsMap);
     }
 
 
@@ -120,4 +117,52 @@ public class Rectangle {
 
         return corners;
     }
+
+    public void setUnits(Point[][] units) {
+        this.units = units;
+    }
+
+    public void setUnitsMap(Map<Integer, List<Integer>> unitsMap) {
+        this.unitsMap = unitsMap;
+    }
+
+    public void setSides(Map<String, Point[]> sides) {
+        this.sides = sides;
+    }
+
+    public void setCorners(Map<String, Point> corners) {
+        this.corners = corners;
+    }
+
+    private Map<Integer, List<Integer>> unitsMap;
+
+    public Point[][] getUnits() {
+        return units;
+    }
+
+    public Map<Integer, List<Integer>> getUnitsMap() {
+        return unitsMap;
+    }
+
+    public Map<String, Point[]> getSides() {
+        return sides;
+    }
+
+    public Map<String, Point> getCorners() {
+        return corners;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getArea() {
+        return area;
+    }
+
+
 }
