@@ -1,5 +1,5 @@
 # Geometry Service
-A Spring Boot command line application that takes in points representing corners of two triangles, then prints to the console information describing their spatial relationship.
+A Spring Boot command line application that takes in points representing corners of two rectangles, then prints to the console information describing their spatial relationship.
 
 <img src="src/main/resources/example-output.png" width="500" height="500" />
 
