@@ -20,35 +20,37 @@ public class GeometryApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		if (args.length > 0) {
-			List<String> stringArgs = new ArrayList<>();
-
-			for (String arg : args) {
-				stringArgs.addAll(Arrays.asList(arg.split(",")));
-			}
-
-			Rectangle rec1 = new Rectangle(
-					stringArgs.get(0),
-					stringArgs.get(1),
-					stringArgs.get(2),
-					stringArgs.get(3)
-			);
-
-			Rectangle rec2 = new Rectangle(
-					stringArgs.get(4),
-					stringArgs.get(5),
-					stringArgs.get(6),
-					stringArgs.get(7)
-			);
-
-			System.out.println("\n" + "Rectangle 1:" + "\n" + rec1);
-			System.out.println("\n" + "Rectangle 2:" + "\n" + rec2);
-
-			System.out.println("\n" + "Analysis:");
-			List<Point> commonSides = RectangleService.intersections(rec1,rec2);
-			System.out.println("intersections: " + Arrays.toString(commonSides.toArray()));
-			System.out.println("contained: " + RectangleService.contained(rec1,rec2));
-			System.out.println("adjacent: " + RectangleService.adjacency(rec1,rec2));
+		if (args.length == 0) {
+			System.out.println("Please provide command line arguments as described in the REAMDE");
+			return;
 		}
+
+		List<String> stringArgs = new ArrayList<>();
+		for (String arg : args) {
+			stringArgs.addAll(Arrays.asList(arg.split(",")));
+		}
+
+		Rectangle rec1 = new Rectangle(
+				stringArgs.get(0),
+				stringArgs.get(1),
+				stringArgs.get(2),
+				stringArgs.get(3)
+		);
+
+		Rectangle rec2 = new Rectangle(
+				stringArgs.get(4),
+				stringArgs.get(5),
+				stringArgs.get(6),
+				stringArgs.get(7)
+		);
+
+		System.out.println("\n" + "Rectangle 1:" + "\n" + rec1);
+		System.out.println("\n" + "Rectangle 2:" + "\n" + rec2);
+
+		System.out.println("\n" + "Analysis:");
+		List<Point> commonSides = RectangleService.intersections(rec1,rec2);
+		System.out.println("intersections: " + Arrays.toString(commonSides.toArray()));
+		System.out.println("contained: " + RectangleService.contained(rec1,rec2));
+		System.out.println("adjacent: " + RectangleService.adjacency(rec1,rec2));
 	}
 }
